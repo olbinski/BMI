@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">BMI</string>
+    <string name="change_units">change units</string>
+    <string name="about">About Me</string>
+    <string name="about_text">I\'ve done this app to help people control their health. Every deviation should be consulted with the doctor. Healthy diet and some sport will help you be fit</string>
+    <string name="piesek">Tu powinien być piesek</string>
+    <string name="author">Dawid Olbiński</string>
+
+
+    <string name="normal"> Kupa</string>
+    <string name="das">das</string>
+
+
+    <string name="underweight_text">underweight</string>
+    <string name="normal_weight_text">normal weight</string>
+    <string name="overweight_text">overweight</string>
+    <string name="obesity_text">obesity</string>
+    <string name="morbid_obesity_text">morbid obesity</string>
+
+
+    <string name="underweight_description_text">underweight description</string>
+    <string name="normal_weight_description_text">normal weight description</string>
+    <string name="overweight_description_text">overweight description</string>
+    <string name="obesity_description_text">obesity description</string>
+    <string name="morbid_obesity_description_text">morbid obesity description</string>
+
+
+</resources>

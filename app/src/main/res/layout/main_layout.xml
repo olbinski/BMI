@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <include
+            layout="@layout/my_toolbar"
+            android:id="@+id/my_toolbar" tools:layout_editor_absoluteY="40dp" tools:layout_editor_absoluteX="0dp">
+
+    </include>
+
+    <ImageView
+            android:layout_width="400dp"
+            android:layout_height="wrap_content" app:srcCompat="@drawable/bmi"
+            android:id="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.794" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline" app:layout_constraintVertical_bias="0.0"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline"
+                                          android:orientation="horizontal"
+                                          app:layout_constraintGuide_percent="0.35"/>
+    <TextView
+            android:text="Mass [kg]:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/massText" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/guideline" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginStart="16dp"/>
+    <EditText
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/massET"
+            android:autofillHints="" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/massText" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+    <TextView
+            android:text="Height [cm]"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/heightText" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/massET" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" app:layout_constraintHorizontal_bias="0.0"
+            android:textColorLink="@color/common_google_signin_btn_text_dark_focused"
+            android:shadowColor="@color/colorAccent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/heightET" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/heightText" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+            android:text="Count BMI"
+            android:layout_width="0dp"
+            android:layout_height="59dp"
+            android:id="@+id/countBT" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:layout_width="121dp"
+            android:layout_height="68dp"
+            android:id="@+id/bmi_result" android:textSize="46sp"
+            android:textAlignment="center"
+            android:textStyle="bold" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/heightET"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_media_play"
+            android:id="@+id/infoButt"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/bmi_result" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.0" tools:srcCompat="@android:drawable/btn_star_big_on"
+            app:layout_constraintBottom_toBottomOf="@+id/bmi_result" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/bmi_result" android:visibility="invisible"/>
+    <TextView
+            android:layout_width="261dp"
+            android:layout_height="53dp"
+            android:id="@+id/bmi_text_result"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/countBT" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/bmi_result" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" android:textAlignment="center" android:textSize="30sp"
+            android:textStyle="bold"/>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#65B683</color>
+    <color name="colorPrimaryDark">#B465B683</color>
+    <color name="colorAccent">#7ED3A4</color>
+    <!--<color name="colorAccent">#E07676</color>-->
+    <color name="colorBackground">#DCEBE2</color>
+
+    <color name="rozPompejski">#B80000</color>
+    <color name="lapisLazuli">#3366CC</color>
+    <color name="grynszpan">#00A693</color>
+    <color name="pomaranczowy">#FB6107</color>
+    <color name="zolty">#FCBA04</color>
+</resources>
