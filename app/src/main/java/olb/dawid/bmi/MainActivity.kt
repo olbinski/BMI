@@ -16,7 +16,7 @@ import java.lang.Double.MIN_VALUE
 
 
 class MainActivity : AppCompatActivity() {
-    var isMetric = true
+    private var isMetric = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,19 +70,24 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
-        outState?.putCharSequence("saved_result", bmi_result.text)
-        outState?.putBoolean("isInfo", infoButt.visibility == View.VISIBLE)
+        outState?.putCharSequence(getString(R.string.saved_result_key), bmi_result.text)
+        outState?.putBoolean(getString(R.string.is_info_button_key), infoButt.visibility == View.VISIBLE)
+        outState?.putBoolean(getString(R.string.isMetric_key), isMetric)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.getCharSequence("saved_result").toString().toDoubleOrNull()?.let { setTexts(it) }
-        val bool = savedInstanceState!!.getBoolean("isInfo")
+        savedInstanceState?.getCharSequence(getString(R.string.saved_result_key)).toString().toDoubleOrNull()?.let { setTexts(it) }
+        val bool = savedInstanceState!!.getBoolean(getString(R.string.is_info_button_key))
         if (bool)
             infoButt.visibility = View.VISIBLE
         else
             infoButt.visibility = View.INVISIBLE
+
+        isMetric = savedInstanceState.getBoolean(getString(R.string.isMetric_key))
+        setUnitsTexts()
+
 
     }
 
@@ -95,16 +100,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.units_settings -> {
-                if (isMetric) {
-//                if (item.isChecked) {
-                    massText.text = "Mass[Lb]"
-                    heightText.text = "Height[In] "
-                } else {
-                    massText.text = "Mass[kg]"
-                    heightText.text = "Height[cm] "
-                }
                 clearFields()
                 isMetric = !isMetric
+                setUnitsTexts()
             }
             R.id.about -> {
                 val intent = Intent(this, AboutMe::class.java)
@@ -151,10 +149,16 @@ class MainActivity : AppCompatActivity() {
                 bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.lapisLazuli))
                 bmi_result.setTextColor(ContextCompat.getColor(this, R.color.lapisLazuli))
                 bmi_text_result.text = getString(R.string.morbid_obesity_text)
-
             }
         }
-        val text = "%.2f".format(bmi)
-        bmi_result.text = text.replace(",", ".")
+        bmi_result.text = bmi.toString()
+    }
+    
+    fun setUnitsTexts() = if (!isMetric) {
+        massText.text = getString(R.string.mass_imperial_text)
+        heightText.text = getString(R.string.height_imperial_text)
+    } else {
+        massText.text = getString(R.string.mass_metric_text)
+        heightText.text = getString(R.string.height_metric_text)
     }
 }

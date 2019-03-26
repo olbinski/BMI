@@ -23,6 +23,13 @@
     <string name="overweight_description_text">overweight description</string>
     <string name="obesity_description_text">obesity description</string>
     <string name="morbid_obesity_description_text">morbid obesity description</string>
+    <string name="mass_imperial_text">Mass[Lb]</string>
+    <string name="height_imperial_text">Height[In]</string>
+    <string name="mass_metric_text">Mass[kg]</string>
+    <string name="height_metric_text">Height[cm]</string>
+    <string name="isMetric_key">isMetric</string>
+    <string name="is_info_button_key">isInfo</string>
+    <string name="saved_result_key">saved_result</string>
 
 
 </resources>
