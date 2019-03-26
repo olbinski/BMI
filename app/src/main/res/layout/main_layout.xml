@@ -16,16 +16,16 @@
             android:layout_height="wrap_content" app:srcCompat="@drawable/bmi"
             android:id="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/left_margin_8p" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="0.794" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/my_toolbar" android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar" android:layout_marginBottom="@dimen/margin_bottom_8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline" app:layout_constraintVertical_bias="0.0"/>
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                           android:id="@+id/guideline"
                                           android:orientation="horizontal"
                                           app:layout_constraintGuide_percent="0.35"/>
     <TextView
-            android:text="Mass [kg]:"
+            android:text="@string/mass_metric_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/massText" android:layout_marginTop="8dp"
@@ -40,15 +40,15 @@
             android:id="@+id/massET"
             android:autofillHints="" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/massText" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            android:layout_marginStart="@dimen/left_margin_8p" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
     <TextView
-            android:text="Height [cm]"
+            android:text="@string/height_metric_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/heightText" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/massET" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginStart="@dimen/left_margin_8p" app:layout_constraintHorizontal_bias="0.0"
             android:textColorLink="@color/common_google_signin_btn_text_dark_focused"
             android:shadowColor="@color/colorAccent"/>
     <EditText
@@ -58,15 +58,15 @@
             android:ems="10"
             android:id="@+id/heightET" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/heightText" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="@dimen/left_margin_8p"
+            app:layout_constraintStart_toStartOf="parent" android:autofillHints=""/>
     <Button
-            android:text="Count BMI"
+            android:text="@string/count_button_text"
             android:layout_width="0dp"
             android:layout_height="59dp"
             android:id="@+id/countBT" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/left_margin_8p"
+            android:layout_marginBottom="@dimen/margin_bottom_8dp" app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
             android:layout_width="121dp"
             android:layout_height="68dp"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_media_play"
             android:id="@+id/infoButt"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@+id/bmi_result" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/bmi_result" android:layout_marginStart="@dimen/left_margin_8p"
             app:layout_constraintHorizontal_bias="0.0" tools:srcCompat="@android:drawable/btn_star_big_on"
             app:layout_constraintBottom_toBottomOf="@+id/bmi_result" android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="@+id/bmi_result" android:visibility="invisible"/>
@@ -89,11 +89,11 @@
             android:layout_width="261dp"
             android:layout_height="53dp"
             android:id="@+id/bmi_text_result"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_bottom_8dp"
             app:layout_constraintBottom_toTopOf="@+id/countBT" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/bmi_result" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:textAlignment="center" android:textSize="30sp"
+            android:layout_marginStart="@dimen/left_margin_8p" android:textAlignment="center" android:textSize="30sp"
             android:textStyle="bold"/>
 
 

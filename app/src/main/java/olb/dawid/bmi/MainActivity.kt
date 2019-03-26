@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         }
         bmi_result.text = bmi.toString()
     }
-    
+
     fun setUnitsTexts() = if (!isMetric) {
         massText.text = getString(R.string.mass_imperial_text)
         heightText.text = getString(R.string.height_imperial_text)

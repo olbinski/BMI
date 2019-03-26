@@ -30,6 +30,7 @@
     <string name="isMetric_key">isMetric</string>
     <string name="is_info_button_key">isInfo</string>
     <string name="saved_result_key">saved_result</string>
+    <string name="count_button_text">Count BMI</string>
 
 
 </resources>

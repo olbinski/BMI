@@ -12,7 +12,7 @@
     </include>
 
     <TextView
-            android:text="Mass [kg]:"
+            android:text="@string/mass_metric_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/massText"
@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"/>
     <TextView
-            android:text="Height [cm]"
+            android:text="@string/height_metric_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/heightText" android:layout_marginTop="8dp"
@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"/>
     <Button
-            android:text="Count BMI"
+            android:text="@string/count_button_text"
             android:layout_width="0dp"
             android:layout_height="59dp"
             android:id="@+id/countBT" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
