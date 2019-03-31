@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.main_layout.*
 import olb.dawid.bmi.logic.BmiForKgCm
 import olb.dawid.bmi.logic.BmiForLbIn
@@ -17,6 +19,8 @@ import java.lang.Double.MIN_VALUE
 
 class MainActivity : AppCompatActivity() {
     private var isMetric = true
+
+    private var historyList: MutableList<HistoryElement> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,33 +42,31 @@ class MainActivity : AppCompatActivity() {
             try {
                 mass = Integer.parseInt(massET.text.toString())
                 height = Integer.parseInt(heightET.text.toString())
-
-
                 try {
-                    if (isMetric) {
+                    val bmiValue: Double
+
+                    bmiValue = if (isMetric) {
                         val bmi = BmiForKgCm(mass, height)
-                        setTexts(bmi.countBmi())
+                        bmi.countBmi()
                     } else {
                         val bmi = BmiForLbIn(mass, height)
-                        setTexts(bmi.countBmi())
+                        bmi.countBmi()
                     }
-                    infoButt.visibility = View.VISIBLE
-                } catch (e: Exception) {
-                    clearFields()
 
+                    updateTextsFields(bmiValue)
+                    saveToHistory(bmiValue, mass, height)
+                    infoButt.visibility = View.VISIBLE
+
+
+                } catch (e: Exception) {
+                    clearTextsFields(this)
                     Toast.makeText(this@MainActivity, "${e.message}", Toast.LENGTH_SHORT).show()
                 }
-
             } catch (e: Exception) {
-                clearFields()
+                clearTextsFields(this)
                 Toast.makeText(this@MainActivity, "puste editable", Toast.LENGTH_SHORT).show()
-
             }
-
-
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -73,13 +75,14 @@ class MainActivity : AppCompatActivity() {
         outState?.putCharSequence(getString(R.string.saved_result_key), bmi_result.text)
         outState?.putBoolean(getString(R.string.is_info_button_key), infoButt.visibility == View.VISIBLE)
         outState?.putBoolean(getString(R.string.isMetric_key), isMetric)
+        outState?.putString("history", Gson().toJson(historyList))
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
         savedInstanceState?.getCharSequence(getString(R.string.saved_result_key)).toString().toDoubleOrNull()
-            ?.let { setTexts(it) }
+            ?.let { updateTextsFields(it) }
         val bool = savedInstanceState!!.getBoolean(getString(R.string.is_info_button_key))
         if (bool)
             infoButt.visibility = View.VISIBLE
@@ -89,6 +92,8 @@ class MainActivity : AppCompatActivity() {
         isMetric = savedInstanceState.getBoolean(getString(R.string.isMetric_key))
         setUnitsTexts()
 
+        val historyListType = object : TypeToken<MutableList<HistoryElement>>() {}.type
+        this.historyList = Gson().fromJson(savedInstanceState.getString("history"), historyListType)
 
     }
 
@@ -101,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.units_settings -> {
-                clearFields()
+                clearTextsFields(this)
                 isMetric = !isMetric
                 setUnitsTexts()
             }
@@ -113,55 +118,64 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun clearFields() {
-        massET.text.clear()
-        heightET.text.clear()
-        bmi_result.text = ""
-        bmi_text_result.text = ""
-        infoButt.visibility = View.INVISIBLE
-    }
+    private fun updateTextsFields(bmi: Double) {
 
-    private fun setTexts(bmi: Double) {
-        val color: Int
-        val text: String
-        when (bmi) {
-            in MIN_VALUE..18.5 -> {
-                color = ContextCompat.getColor(this, R.color.rozPompejski)
-                text = getString(R.string.underweight_text)
-            }
-            in 18.5..25.0 -> {
-                color = ContextCompat.getColor(this, R.color.pomaranczowy)
-                text = getString(R.string.normal_weight_text)
-            }
-            in 25.0..30.0 -> {
-                color = ContextCompat.getColor(this, R.color.zolty)
-                text = getString(R.string.overweight_text)
-            }
-            in 30.0..40.0 -> {
-                color = ContextCompat.getColor(this, R.color.grynszpan)
-                text = getString(R.string.obesity_text)
-            }
-            in 40.0..MAX_VALUE -> {
-                color = ContextCompat.getColor(this, R.color.lapisLazuli)
-                text = getString(R.string.morbid_obesity_text)
-            }
-            else -> {
-                color = ContextCompat.getColor(this, R.color.black)
-                text = ""
-            }
-        }
-
+        val color = getTextColor(bmi)
+        val text = getTextString(bmi)
 
 
         bmi_text_result.setTextColor(color)
         bmi_result.setTextColor(color)
+
+
         bmi_text_result.text = text
-
-
-
         val bmiText = "%.2f".format(bmi)
         bmi_result.text = bmiText.replace(",", ".")
     }
+
+    private fun getTextString(bmi: Double) =
+        when (bmi) {
+        in MIN_VALUE..18.5 -> {
+            getString(R.string.underweight_text)
+        }
+        in 18.5..25.0 -> {
+            getString(R.string.normal_weight_text)
+        }
+        in 25.0..30.0 -> {
+            getString(R.string.overweight_text)
+        }
+        in 30.0..40.0 -> {
+            getString(R.string.obesity_text)
+        }
+        in 40.0..MAX_VALUE -> {
+            getString(R.string.morbid_obesity_text)
+        }
+        else -> {
+            ""
+        }
+    }
+
+    private fun getTextColor(bmi: Double) = when (bmi) {
+        in MIN_VALUE..18.5 -> {
+            ContextCompat.getColor(this, R.color.rozPompejski)
+        }
+        in 18.5..25.0 -> {
+            ContextCompat.getColor(this, R.color.pomaranczowy)
+        }
+        in 25.0..30.0 -> {
+            ContextCompat.getColor(this, R.color.zolty)
+        }
+        in 30.0..40.0 -> {
+            ContextCompat.getColor(this, R.color.grynszpan)
+        }
+        in 40.0..MAX_VALUE -> {
+            ContextCompat.getColor(this, R.color.lapisLazuli)
+        }
+        else -> {
+            ContextCompat.getColor(this, R.color.black)
+        }
+    }
+
 
     private fun setUnitsTexts() = if (!isMetric) {
         massText.text = getString(R.string.mass_imperial_text)
@@ -169,5 +183,25 @@ class MainActivity : AppCompatActivity() {
     } else {
         massText.text = getString(R.string.mass_metric_text)
         heightText.text = getString(R.string.height_metric_text)
+    }
+
+    private fun saveToHistory(bmi: Double, mass: Int, height: Int) {
+
+        val element = HistoryElement(bmi, mass, height,getTextColor(bmi))
+        historyList.add(element)
+        Toast.makeText(this@MainActivity, historyList.size.toString(), Toast.LENGTH_SHORT).show()
+
+
+
+    }
+
+    companion object {
+        private fun clearTextsFields(mainActivity: MainActivity) {
+            mainActivity.massET.text.clear()
+            mainActivity.heightET.text.clear()
+            mainActivity.bmi_result.text = ""
+            mainActivity.bmi_text_result.text = ""
+            mainActivity.infoButt.visibility = View.INVISIBLE
+        }
     }
 }
