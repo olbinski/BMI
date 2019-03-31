@@ -122,7 +122,9 @@ class MainActivity : AppCompatActivity() {
                 val historyString = Gson().toJson(historyList)
                 intent.putExtra("history_set", historyString)
                 startActivity(intent)
-
+            }
+            R.id.history_clear -> {
+                historyList.clear()
             }
         }
         return super.onOptionsItemSelected(item)

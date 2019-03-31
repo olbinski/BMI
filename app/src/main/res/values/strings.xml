@@ -32,6 +32,7 @@
     <string name="saved_result_key">saved_result</string>
     <string name="count_button_text">Count BMI</string>
     <string name="history">History</string>
+    <string name="clear_history">Clear History</string>
 
 
 </resources>

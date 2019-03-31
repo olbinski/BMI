@@ -19,6 +19,8 @@ class MyAdapter(private val myDataset: MutableList<HistoryElement>) : RecyclerVi
         val mass: TextView = itemView.findViewById(R.id.h_element_mass)
         val height: TextView = itemView.findViewById(R.id.h_element_height)
         val data: TextView = itemView.findViewById(R.id.h_element_date)
+        val bmiText: TextView = itemView.findViewById(R.id.h_element_text)
+        val bmiResult: TextView = itemView.findViewById(R.id.h_element_result)
 
     }
 
@@ -42,6 +44,10 @@ class MyAdapter(private val myDataset: MutableList<HistoryElement>) : RecyclerVi
         holder.mass.text = element.mass.toString()
         holder.height.text = element.height.toString()
         holder.data.text = SimpleDateFormat("dd.MM.yy  HH:mm", Locale.getDefault()).format(element.date)
+        holder.bmiText.setTextColor(element.color)
+        holder.bmiResult.setTextColor(element.color)
+        holder.bmiText.text = element.text
+        holder.bmiResult.text = "%.2f".format(element.bmiCount)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

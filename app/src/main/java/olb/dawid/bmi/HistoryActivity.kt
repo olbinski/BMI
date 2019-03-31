@@ -20,12 +20,14 @@ class HistoryActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
 
 
-        val string_history = intent.getStringExtra("history_set")
+        val stringHistory = intent.getStringExtra("history_set")
 
+        val myDataset:MutableList<HistoryElement>
         val historyListType = object : TypeToken<MutableList<HistoryElement>>() {}.type
-//        if (string_history != null)
-            val myDataset = Gson().fromJson<MutableList<HistoryElement>>(string_history, historyListType)
-
+        if (stringHistory != null)
+            myDataset = Gson().fromJson<MutableList<HistoryElement>>(stringHistory, historyListType)
+        else
+            myDataset = mutableListOf()
 
         viewAdapter = MyAdapter(myDataset)
 
@@ -35,10 +37,8 @@ class HistoryActivity : AppCompatActivity() {
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
 
-            // use a linear layout manager
             layoutManager = viewManager
 
-            // specify an viewAdapter (see also next example)
             adapter = viewAdapter
 
         }
