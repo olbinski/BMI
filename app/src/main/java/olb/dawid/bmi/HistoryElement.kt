@@ -2,7 +2,7 @@ package olb.dawid.bmi
 
 import java.util.*
 
-class HistoryElement(val bmiCount: Double, val mass: Int, val height: Int, val text:String, val color: Int) {
+class HistoryElement(val bmiCount: Double, val mass: Int, val height: Int, val text:String, val color: Int, val massUnits: String, val heightUnits: String) {
     val date = Calendar.getInstance().time
 }
 //

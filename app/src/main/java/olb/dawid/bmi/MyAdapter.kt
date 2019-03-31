@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,11 @@ class MyAdapter(private val myDataset: MutableList<HistoryElement>) : RecyclerVi
     class MyViewHolder(View: View) : RecyclerView.ViewHolder(View) {
         val mass: TextView = itemView.findViewById(R.id.h_element_mass)
         val height: TextView = itemView.findViewById(R.id.h_element_height)
-        val data: TextView = itemView.findViewById(R.id.h_element_date)
+        val date: TextView = itemView.findViewById(R.id.h_element_date)
         val bmiText: TextView = itemView.findViewById(R.id.h_element_text)
         val bmiResult: TextView = itemView.findViewById(R.id.h_element_result)
+        val massText: TextView = itemView.findViewById(R.id.h_mass_text)
+        val heightText: TextView = itemView.findViewById(R.id.h_height_text)
 
     }
 
@@ -35,6 +38,7 @@ class MyAdapter(private val myDataset: MutableList<HistoryElement>) : RecyclerVi
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
@@ -43,11 +47,13 @@ class MyAdapter(private val myDataset: MutableList<HistoryElement>) : RecyclerVi
 
         holder.mass.text = element.mass.toString()
         holder.height.text = element.height.toString()
-        holder.data.text = SimpleDateFormat("dd.MM.yy  HH:mm", Locale.getDefault()).format(element.date)
+        holder.date.text = SimpleDateFormat("dd.MM.yy  HH:mm", Locale.getDefault()).format(element.date)
         holder.bmiText.setTextColor(element.color)
         holder.bmiResult.setTextColor(element.color)
         holder.bmiText.text = element.text
         holder.bmiResult.text = "%.2f".format(element.bmiCount)
+        holder.massText.text = element.massUnits
+        holder.heightText.text = element.heightUnits
     }
 
     // Return the size of your dataset (invoked by the layout manager)

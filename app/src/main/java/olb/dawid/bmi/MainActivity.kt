@@ -222,8 +222,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveToHistory(bmi: Double, mass: Int, height: Int) {
 
-            val element = HistoryElement(bmi, mass, height,getTextString(bmi),getTextColor(bmi))
+            val element = HistoryElement(bmi, mass, height,getTextString(bmi),getTextColor(bmi),massText.text.toString(), heightText.text.toString())
+
+            while(historyList.size > 9)
+                historyList.removeAt(0)
             historyList.add(element)
+
+
             Toast.makeText(this@MainActivity, historyList.size.toString(), Toast.LENGTH_SHORT).show()
         }
 
