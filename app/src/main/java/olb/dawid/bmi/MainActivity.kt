@@ -1,5 +1,6 @@
 package olb.dawid.bmi
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -54,7 +55,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     updateTextsFields(bmiValue)
+
                     saveToHistory(bmiValue, mass, height)
+
                     infoButt.visibility = View.VISIBLE
 
 
@@ -110,12 +113,40 @@ class MainActivity : AppCompatActivity() {
                 isMetric = !isMetric
                 setUnitsTexts()
             }
-            R.id.about -> {
+            R.id.about_menu -> {
                 val intent = Intent(this, AboutMe::class.java)
                 startActivity(intent)
             }
+            R.id.history_menu ->{
+                val intent = Intent(this, HistoryActivity::class.java)
+                val historyString = Gson().toJson(historyList)
+                intent.putExtra("history_set", historyString)
+                startActivity(intent)
+
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("history", Gson().toJson(historyList))
+        editor.apply()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+
+        val historyListType = object : TypeToken<MutableList<HistoryElement>>() {}.type
+        val stringList = sharedPref.getString("history","")
+        if(stringList != "")
+        this.historyList = Gson().fromJson(stringList, historyListType)
+
+
     }
 
     private fun updateTextsFields(bmi: Double) {
@@ -135,65 +166,64 @@ class MainActivity : AppCompatActivity() {
 
     private fun getTextString(bmi: Double) =
         when (bmi) {
-        in MIN_VALUE..18.5 -> {
-            getString(R.string.underweight_text)
+            in MIN_VALUE..18.5 -> {
+                getString(R.string.underweight_text)
+            }
+            in 18.5..25.0 -> {
+                getString(R.string.normal_weight_text)
+            }
+            in 25.0..30.0 -> {
+                getString(R.string.overweight_text)
+            }
+            in 30.0..40.0 -> {
+                getString(R.string.obesity_text)
+            }
+            in 40.0..MAX_VALUE -> {
+                getString(R.string.morbid_obesity_text)
+            }
+            else -> {
+                ""
+            }
         }
-        in 18.5..25.0 -> {
-            getString(R.string.normal_weight_text)
-        }
-        in 25.0..30.0 -> {
-            getString(R.string.overweight_text)
-        }
-        in 30.0..40.0 -> {
-            getString(R.string.obesity_text)
-        }
-        in 40.0..MAX_VALUE -> {
-            getString(R.string.morbid_obesity_text)
-        }
-        else -> {
-            ""
-        }
-    }
 
-    private fun getTextColor(bmi: Double) = when (bmi) {
-        in MIN_VALUE..18.5 -> {
-            ContextCompat.getColor(this, R.color.rozPompejski)
+
+    private fun getTextColor(bmi: Double) =
+        when (bmi) {
+            in MIN_VALUE..18.5 -> {
+                ContextCompat.getColor(this, R.color.rozPompejski)
+            }
+            in 18.5..25.0 -> {
+                ContextCompat.getColor(this, R.color.pomaranczowy)
+            }
+            in 25.0..30.0 -> {
+                ContextCompat.getColor(this, R.color.zolty)
+            }
+            in 30.0..40.0 -> {
+                ContextCompat.getColor(this, R.color.grynszpan)
+            }
+            in 40.0..MAX_VALUE -> {
+                ContextCompat.getColor(this, R.color.lapisLazuli)
+            }
+            else -> {
+                ContextCompat.getColor(this, R.color.black)
+            }
         }
-        in 18.5..25.0 -> {
-            ContextCompat.getColor(this, R.color.pomaranczowy)
-        }
-        in 25.0..30.0 -> {
-            ContextCompat.getColor(this, R.color.zolty)
-        }
-        in 30.0..40.0 -> {
-            ContextCompat.getColor(this, R.color.grynszpan)
-        }
-        in 40.0..MAX_VALUE -> {
-            ContextCompat.getColor(this, R.color.lapisLazuli)
-        }
-        else -> {
-            ContextCompat.getColor(this, R.color.black)
-        }
-    }
 
 
     private fun setUnitsTexts() = if (!isMetric) {
-        massText.text = getString(R.string.mass_imperial_text)
-        heightText.text = getString(R.string.height_imperial_text)
-    } else {
-        massText.text = getString(R.string.mass_metric_text)
-        heightText.text = getString(R.string.height_metric_text)
-    }
+            massText.text = getString(R.string.mass_imperial_text)
+            heightText.text = getString(R.string.height_imperial_text)
+        } else {
+            massText.text = getString(R.string.mass_metric_text)
+            heightText.text = getString(R.string.height_metric_text)
+        }
 
     private fun saveToHistory(bmi: Double, mass: Int, height: Int) {
 
-        val element = HistoryElement(bmi, mass, height,getTextColor(bmi))
-        historyList.add(element)
-        Toast.makeText(this@MainActivity, historyList.size.toString(), Toast.LENGTH_SHORT).show()
-
-
-
-    }
+            val element = HistoryElement(bmi, mass, height,getTextString(bmi),getTextColor(bmi))
+            historyList.add(element)
+            Toast.makeText(this@MainActivity, historyList.size.toString(), Toast.LENGTH_SHORT).show()
+        }
 
     companion object {
         private fun clearTextsFields(mainActivity: MainActivity) {
@@ -205,3 +235,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
