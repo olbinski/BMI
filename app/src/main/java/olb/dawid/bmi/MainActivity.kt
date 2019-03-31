@@ -78,7 +78,8 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.getCharSequence(getString(R.string.saved_result_key)).toString().toDoubleOrNull()?.let { setTexts(it) }
+        savedInstanceState?.getCharSequence(getString(R.string.saved_result_key)).toString().toDoubleOrNull()
+            ?.let { setTexts(it) }
         val bool = savedInstanceState!!.getBoolean(getString(R.string.is_info_button_key))
         if (bool)
             infoButt.visibility = View.VISIBLE
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun clearFields() {
+    private fun clearFields() {
         massET.text.clear()
         heightET.text.clear()
         bmi_result.text = ""
@@ -120,41 +121,49 @@ class MainActivity : AppCompatActivity() {
         infoButt.visibility = View.INVISIBLE
     }
 
-    fun setTexts(bmi: Double) {
+    private fun setTexts(bmi: Double) {
+        val color: Int
+        val text: String
         when (bmi) {
             in MIN_VALUE..18.5 -> {
-                bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.rozPompejski))
-                bmi_result.setTextColor(ContextCompat.getColor(this, R.color.rozPompejski))
-                bmi_text_result.text = getString(R.string.underweight_text)
+                color = ContextCompat.getColor(this, R.color.rozPompejski)
+                text = getString(R.string.underweight_text)
             }
             in 18.5..25.0 -> {
-                bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.pomaranczowy))
-                bmi_result.setTextColor(ContextCompat.getColor(this, R.color.pomaranczowy))
-                bmi_text_result.text = getString(R.string.normal_weight_text)
-
+                color = ContextCompat.getColor(this, R.color.pomaranczowy)
+                text = getString(R.string.normal_weight_text)
             }
             in 25.0..30.0 -> {
-                bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.zolty))
-                bmi_result.setTextColor(ContextCompat.getColor(this, R.color.zolty))
-                bmi_text_result.text = getString(R.string.overweight_text)
-
+                color = ContextCompat.getColor(this, R.color.zolty)
+                text = getString(R.string.overweight_text)
             }
             in 30.0..40.0 -> {
-                bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.grynszpan))
-                bmi_result.setTextColor(ContextCompat.getColor(this, R.color.grynszpan))
-                bmi_text_result.text = getString(R.string.obesity_text)
-
+                color = ContextCompat.getColor(this, R.color.grynszpan)
+                text = getString(R.string.obesity_text)
             }
             in 40.0..MAX_VALUE -> {
-                bmi_text_result.setTextColor(ContextCompat.getColor(this, R.color.lapisLazuli))
-                bmi_result.setTextColor(ContextCompat.getColor(this, R.color.lapisLazuli))
-                bmi_text_result.text = getString(R.string.morbid_obesity_text)
+                color = ContextCompat.getColor(this, R.color.lapisLazuli)
+                text = getString(R.string.morbid_obesity_text)
+            }
+            else -> {
+                color = ContextCompat.getColor(this, R.color.black)
+                text = ""
             }
         }
-        bmi_result.text = bmi.toString()
+
+
+
+        bmi_text_result.setTextColor(color)
+        bmi_result.setTextColor(color)
+        bmi_text_result.text = text
+
+
+
+        val bmiText = "%.2f".format(bmi)
+        bmi_result.text = bmiText.replace(",", ".")
     }
 
-    fun setUnitsTexts() = if (!isMetric) {
+    private fun setUnitsTexts() = if (!isMetric) {
         massText.text = getString(R.string.mass_imperial_text)
         heightText.text = getString(R.string.height_imperial_text)
     } else {
