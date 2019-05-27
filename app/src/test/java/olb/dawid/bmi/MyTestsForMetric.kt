@@ -5,21 +5,21 @@ import io.kotlintest.specs.StringSpec
 import olb.dawid.bmi.logic.BmiForKgCm
 import org.junit.Assert
 
-class MyCoolTestsForMetric : StringSpec() {
+class MyTestsForMetric : StringSpec() {
 
     init{
 
-        "for valid data" {
+        "for valid mass and height" {
             val bmi = BmiForKgCm(65,170)
             bmi.countBmi() shouldBeAround 22.491
         }
-        "for valid data 2" {
+        "for valid mass and height sec" {
             val bmi = BmiForKgCm(20,50)
             bmi.countBmi() shouldBeAround 80.000
         }
 
 
-        "when data are invalid"{
+        "when mass and height is invalid"{
             val bmi = BmiForKgCm(-1,0)
             shouldThrow<IllegalArgumentException> {bmi.countBmi() }
         }
@@ -30,7 +30,7 @@ class MyCoolTestsForMetric : StringSpec() {
             shouldThrow<java.lang.IllegalArgumentException> {bmi.countBmi()  }
         }
 
-        "for valid mass and invalid data"{
+        "for valid mass and invalid height"{
             val bmi = BmiForKgCm(60, -8)
             shouldThrow<java.lang.IllegalArgumentException> {bmi.countBmi()  }
         }

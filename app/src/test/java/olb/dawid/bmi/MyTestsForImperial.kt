@@ -6,33 +6,33 @@ import olb.dawid.bmi.logic.BmiForKgCm
 import olb.dawid.bmi.logic.BmiForLbIn
 import org.junit.Assert
 
-class MyCoolTestsForImperial : StringSpec() {
+class MyTestsForImperial : StringSpec() {
 
     init{
 
-        "for valid data " {
+        "for valid mass and height " {
             val bmi = BmiForLbIn(222,66)
             bmi.countBmi() shouldBeAround 35.827
         }
-        "for valid data2 " {
+        "for valid mass and height " {
             val bmi = BmiForLbIn(44,20)
             bmi.countBmi() shouldBeAround 77.330
         }
 
 
 
-        "when data are invalid"{
+        "when mass and height is invalid"{
             val bmi = BmiForLbIn(-1,0)
             shouldThrow<IllegalArgumentException> {bmi.countBmi() }
         }
 
 
-        "for invalid mass and valid data"{
+        "for invalid mass and valid height"{
             val bmi = BmiForLbIn(-1, 60)
             shouldThrow<java.lang.IllegalArgumentException> {bmi.countBmi()  }
         }
 
-        "for valid mass and invalid data"{
+        "for valid mass and invalid height"{
             val bmi = BmiForLbIn(60, -8)
             shouldThrow<java.lang.IllegalArgumentException> {bmi.countBmi()  }
         }

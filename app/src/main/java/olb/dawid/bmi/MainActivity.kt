@@ -28,49 +28,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_layout)
         setSupportActionBar(my_toolbar as android.support.v7.widget.Toolbar?)
 
-        infoButt.setOnClickListener {
-
-            val intent = Intent(this, Info::class.java)
-            intent.putExtra("bmiNumber", bmi_result.text)
-            intent.putExtra("bmiText", bmi_text_result.text)
-            startActivity(intent)
-        }
-
-        countBT.setOnClickListener {
-            val mass: Int
-            val height: Int
-
-            try {
-                mass = Integer.parseInt(massET.text.toString())
-                height = Integer.parseInt(heightET.text.toString())
-                try {
-                    val bmiValue: Double
-
-                    bmiValue = if (isMetric) {
-                        val bmi = BmiForKgCm(mass, height)
-                        bmi.countBmi()
-                    } else {
-                        val bmi = BmiForLbIn(mass, height)
-                        bmi.countBmi()
-                    }
-
-                    updateTextsFields(bmiValue)
-
-                    saveToHistory(bmiValue, mass, height)
-
-                    infoButt.visibility = View.VISIBLE
-
-
-                } catch (e: Exception) {
-                    clearTextsFields(this)
-                    Toast.makeText(this@MainActivity, "${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                clearTextsFields(this)
-                Toast.makeText(this@MainActivity, "puste editable", Toast.LENGTH_SHORT).show()
-            }
-        }
+        setInfoButtListner()
+        setCountButtonListner()
     }
+
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
@@ -231,6 +192,52 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(this@MainActivity, historyList.size.toString(), Toast.LENGTH_SHORT).show()
         }
+
+    private fun setInfoButtListner(){
+        infoButt.setOnClickListener {
+
+            val intent = Intent(this, Info::class.java)
+            intent.putExtra("bmiNumber", bmi_result.text)
+            intent.putExtra("bmiText", bmi_text_result.text)
+            startActivity(intent)
+        }
+    }
+
+    private fun setCountButtonListner(){
+        countBT.setOnClickListener {
+            val mass: Int
+            val height: Int
+
+            try {
+                mass = Integer.parseInt(massET.text.toString())
+                height = Integer.parseInt(heightET.text.toString())
+                try {
+                    val bmiValue: Double
+
+                    bmiValue = if (isMetric) {
+                        val bmi = BmiForKgCm(mass, height)
+                        bmi.countBmi()
+                    } else {
+                        val bmi = BmiForLbIn(mass, height)
+                        bmi.countBmi()
+                    }
+
+                    updateTextsFields(bmiValue)
+                    saveToHistory(bmiValue, mass, height)
+                    infoButt.visibility = View.VISIBLE
+
+
+                } catch (e: Exception) {
+                    clearTextsFields(this)
+                    Toast.makeText(this@MainActivity, "${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: java.lang.Exception) {
+                clearTextsFields(this)
+                Toast.makeText(this@MainActivity, "puste editable", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     companion object {
         private fun clearTextsFields(mainActivity: MainActivity) {
